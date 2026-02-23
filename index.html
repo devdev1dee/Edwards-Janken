@@ -3,68 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edward's Scissorhands Janken</title>
+    <title>Pixel Edward Janken</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=UnifrakturMaguntia&display=swap');
+        /* Retro Pixel Font */
+        @import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
 
         body { 
-            background: #0d0d0d; 
-            color: #d1d1d1; 
+            background: #111; 
+            color: #00ff41; /* Matrix/Retro Green */
             text-align: center; 
-            font-family: 'Special+Elite', serif;
-            background-image: radial-gradient(circle, #222 1%, #000 100%);
+            font-family: 'DotGothic16', sans-serif;
+            image-rendering: pixelated; /* Makes your art look like pixels */
             margin: 0; padding: 20px;
         }
 
-        h1 { font-family: 'UnifrakturMaguntia', cursive; font-size: 2.5rem; color: #fff; margin-bottom: 5px; }
+        #game-container { 
+            max-width: 500px; 
+            margin: auto; 
+            border: 4px solid #444; 
+            background: #000; 
+            padding: 15px;
+            box-shadow: 10px 10px 0px #222;
+        }
 
-        #game-container { max-width: 600px; margin: auto; border: 2px solid #444; padding: 20px; background: rgba(0,0,0,0.8); }
-
-        /* HEALTH BAR STYLES */
-        .health-section { margin-bottom: 20px; }
-        .label { font-size: 0.8rem; letter-spacing: 2px; margin-bottom: 5px; color: #888; }
-        #health-bar-container { width: 100%; height: 20px; border: 1px solid #555; background: #111; position: relative; }
+        /* PIXEL HEALTH BAR */
+        .health-section { margin-bottom: 20px; padding: 10px; border: 2px solid #333; }
+        #health-bar-container { 
+            width: 100%; 
+            height: 30px; 
+            background: #222; 
+            border: 3px solid #fff;
+            position: relative;
+        }
         #health-fill { 
-            width: 100%; height: 100%; background: linear-gradient(to right, #600, #f00); 
-            transition: width 0.5s ease-in-out; box-shadow: 0 0 10px #f00;
+            width: 100%; 
+            height: 100%; 
+            background: #ff0000; 
+            transition: width 0.3s steps(5); /* Steps makes it look "choppy/retro" */
         }
 
         #screen { 
-            width: 100%; height: 350px; border: 1px solid #333; background: #000; 
-            display: flex; align-items: center; justify-content: center; margin-bottom: 20px;
+            width: 100%; 
+            height: 300px; 
+            background: #050505; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-bottom: 4px solid #444;
+            margin-bottom: 20px;
         }
 
-        img { max-width: 100%; max-height: 100%; filter: grayscale(30%); }
+        img { 
+            max-width: 100%; 
+            max-height: 100%; 
+            /* This forces the browser to not blur your drawings */
+            image-rendering: -moz-crisp-edges;
+            image-rendering: pixelated;
+        }
 
-        .controls { display: flex; justify-content: center; gap: 15px; }
+        .controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
 
         button { 
-            padding: 12px 24px; cursor: pointer; background: #1a1a1a; color: #bbb; 
-            border: 1px solid #444; font-family: 'Special+Elite', serif; transition: 0.3s;
+            padding: 10px 15px; 
+            cursor: pointer; 
+            background: #000; 
+            color: #fff; 
+            border: 3px solid #fff; 
+            font-family: 'DotGothic16', sans-serif;
+            text-transform: uppercase;
         }
 
-        button:hover { background: #fff; color: #000; box-shadow: 0 0 10px #fff; }
+        button:hover { background: #fff; color: #000; }
 
-        #message { font-style: italic; font-size: 1.1rem; height: 1.5em; color: #aaa; margin: 15px 0; }
+        #message { height: 2em; margin: 15px 0; font-size: 1.2rem; color: #fff; }
     </style>
 </head>
 <body>
 
     <div id="game-container">
-        <h1>Edward's Fate</h1>
+        <h1 style="font-size: 1.5rem;">EDWARD_SCISSORS.EXE</h1>
 
         <div class="health-section">
-            <div class="label">EDWARD'S SPIRIT</div>
             <div id="health-bar-container">
                 <div id="health-fill"></div>
             </div>
+            <div style="margin-top:5px;">EDWARD_HP</div>
         </div>
 
         <div id="screen">
             <img id="game-frame" src="edward_idle.png">
         </div>
 
-        <div id="message">Will you play with him?</div>
+        <div id="message">CHOOSE YOUR MOVE</div>
         
         <div class="controls" id="rps-controls">
             <button onclick="playJanken('rock')">ROCK</button>
@@ -89,18 +119,18 @@
         const healthFill = document.getElementById('health-fill');
 
         function playJanken(playerChoice) {
-            const edwardChoice = 'scissors';
+            // Edward is always scissors
             if (playerChoice === 'rock') {
                 frame.src = 'edward_surprised.png';
-                msg.innerText = "You beat his scissors! Now point!";
-                setTimeout(showDirections, 800);
+                msg.innerText = "WIN! POINT A DIRECTION!";
+                setTimeout(showDirections, 600);
             } else if (playerChoice === 'paper') {
                 frame.src = 'edward_win_throw.png';
-                msg.innerText = "He cut your paper. Edward is safe.";
-                setTimeout(resetRound, 2000);
+                msg.innerText = "LOSE! HE CUT THE PAPER!";
+                setTimeout(resetRound, 1500);
             } else {
                 frame.src = 'edward_tie.png';
-                msg.innerText = "A scissor tie. Try again.";
+                msg.innerText = "TIE! TRY AGAIN!";
             }
         }
 
@@ -112,33 +142,34 @@
         function playDirection(playerDir) {
             const choices = ['up', 'down', 'left', 'right'];
             const edwardLook = choices[Math.floor(Math.random() * 4)];
+            
             frame.src = 'edward_looks_' + edwardLook + '.png';
             
             if (playerDir === edwardLook) {
-                // SUCCESS! Edward loses health
-                health -= 25;
-                healthFill.style.width = health + "%";
-                msg.innerText = "DIRECT HIT!";
+                // THE HIT: Health goes down here
+                health = health - 25; 
+                healthFill.style.width = health + "%"; // Update the bar visually
+                msg.innerText = "CRITICAL HIT!";
                 
                 if (health <= 0) {
                     setTimeout(() => {
                         frame.src = 'victory_screen.png';
-                        msg.innerText = "Edward has been defeated.";
+                        msg.innerText = "EDWARD DEFEATED!";
                         dirs.style.display = 'none';
                     }, 500);
                     return;
                 }
             } else {
-                msg.innerText = "He looked " + edwardLook + ". You missed!";
+                msg.innerText = "MISS! HE LOOKED " + edwardLook.toUpperCase();
             }
             
-            setTimeout(resetRound, 2000);
+            setTimeout(resetRound, 1500);
         }
 
         function resetRound() {
             if (health > 0) {
                 frame.src = 'edward_idle.png';
-                msg.innerText = "Edward waits...";
+                msg.innerText = "CHOOSE YOUR MOVE";
                 rps.style.display = 'flex';
                 dirs.style.display = 'none';
             }
